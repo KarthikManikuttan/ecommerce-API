@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../const/colors.dart';
 import 'build_icon_widget.dart';
 
@@ -29,7 +28,7 @@ class _BuildCircleIconButtonWidgetState
       child: IconButton(
         splashColor: AppColors().primaryColors,
         color: AppColors().primaryColors,
-        onPressed: () {},
+        onPressed: widget.onPressed,
         icon: BuildIconWidget(
           imgLink: widget.imgLink,
           color: widget.color ?? Colors.black,

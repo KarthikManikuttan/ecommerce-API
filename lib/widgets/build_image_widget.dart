@@ -1,3 +1,4 @@
+import 'package:ecommerce_api/const/colors.dart';
 import 'package:flutter/material.dart';
 
 class BuildImageWidget extends StatefulWidget {
@@ -23,6 +24,17 @@ class _BuildImageWidgetState extends State<BuildImageWidget> {
   Widget build(BuildContext context) {
     return Image.network(
       widget.imgLink,
+      loadingBuilder: (context, child, loadingProgress) {
+        if (loadingProgress == null) {
+          return child;
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+              color: AppColors().primaryColors,
+            ),
+          );
+        }
+      },
     );
   }
 }

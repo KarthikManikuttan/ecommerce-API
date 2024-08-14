@@ -1,9 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-
-import '../const/colors.dart';
 import 'build_image_widget.dart';
-import 'build_text_widget.dart';
 
 class CarouselProductWidget extends StatefulWidget {
   final List<String> imgList;

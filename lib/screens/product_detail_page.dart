@@ -1,19 +1,29 @@
 import 'package:ecommerce_api/const/colors.dart';
-import 'package:ecommerce_api/widgets/build_container_widget.dart';
+import 'package:ecommerce_api/models/e_commerce_response_model.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:ecommerce_api/widgets/carousel_product_widget.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/build_circle_icon_button_widget.dart';
+import '../widgets/build_container_widget.dart';
 
 class ProductDetailPage extends StatefulWidget {
-  final List<String> imgList;
   final String title;
+  final String description;
+  final List<String> imgList;
+  final double rating;
+  final double price;
+  final double discount;
+  final List<Review> reviewList;
 
   const ProductDetailPage({
     super.key,
-    required this.imgList,
     required this.title,
+    required this.rating,
+    required this.imgList,
+    required this.reviewList,
+    required this.price,
+    required this.description,
+    required this.discount,
   });
 
   @override
@@ -23,101 +33,184 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-          backgroundColor: AppColors().greyColors2,
-          body: Column(
-            children: [
-              const SizedBox(
-                height: 50,
+    return Scaffold(
+      backgroundColor: AppColors().greyColors2,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BuildCircleIconButtonWidget(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    imgLink: "https://img.icons8.com/windows/64/back.png",
+                  ),
+                  Row(
+                    children: [
+                      BuildCircleIconButtonWidget(
+                        onPressed: () {},
+                        imgLink:
+                        "https://img.icons8.com/ios-filled/50/like--v1.png",
+                        color: Colors.red,
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      BuildCircleIconButtonWidget(
+                        onPressed: () {},
+                        imgLink:
+                        "https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/000000/external-upload-ui-dreamstale-lineal-dreamstale.png",
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
+            CarouselProductWidget(
+              imgList: widget.imgList,
+            ),
+            Container(
+              constraints: const BoxConstraints(
+                  minHeight: 290,
+                  minWidth: double.infinity,
+                  maxHeight: double.infinity),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25),
+                  topRight: Radius.circular(25),
+                ),
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 20,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BuildCircleIconButtonWidget(
-                      onPressed: () {},
-                      imgLink: "https://img.icons8.com/windows/64/back.png",
-                    ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        BuildCircleIconButtonWidget(
-                          onPressed: () {},
-                          imgLink:
-                              "https://img.icons8.com/ios-filled/50/like--v1.png",
-                          color: Colors.red,
+                        Flexible(
+                          child: BuildTextWidget(
+                            text: widget.title,
+                            size: 25,
+                            weight: FontWeight.w900,
+                          ),
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        BuildCircleIconButtonWidget(
-                          onPressed: () {},
-                          imgLink:
-                              "https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/000000/external-upload-ui-dreamstale-lineal-dreamstale.png",
+                        Container(
+                          height: 40,
+                          width: 90,
+                          decoration: BoxDecoration(
+                            color: AppColors().redColor,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: const Center(
+                            child: BuildTextWidget(
+                              text: "% On sale",
+                              color: Colors.white,
+                              weight: FontWeight.w900,
+                              size: 12,
+                            ),
+                          ),
                         ),
                       ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Row(
+                        children: [
+                          BuildContainerWidget(
+                            text: widget.rating.toString(),
+                            icon: Icons.star,
+                            iconColor: Colors.orange,
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          BuildContainerWidget(
+                            text: widget.discount.toString(),
+                            icon: Icons.percent_rounded,
+                            iconColor: Colors.green,
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          BuildTextWidget(
+                            text: "${widget.reviewList.length} reviews",
+                            color: Colors.grey,
+                            weight: FontWeight.w700,
+                            size: 13,
+                          ),
+                        ],
+                      ),
+                    ),
+                    BuildTextWidget(
+                      text: widget.description,
+                      weight: FontWeight.w500,
                     ),
                   ],
                 ),
               ),
-              CarouselProductWidget(
-                imgList: widget.imgList,
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 100),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          scrolledUnderElevation: 0,
+          flexibleSpace: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Divider(),
+              const SizedBox(
+                height: 10,
               ),
-              Flexible(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
-                    ),
-                    color: Colors.white,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  BuildTextWidget(
+                    text: "\$${widget.price}",
+                    weight: FontWeight.w900,
+                    size: 25,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 20,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            BuildTextWidget(
-                              text: widget.title,
-                              size: 25,
-                              weight: FontWeight.w900,
-                            ),
-                            Container(
-                              height: 40,
-                              width: 90,
-                              decoration: BoxDecoration(
-                                color: AppColors().redColor,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: const Center(
-                                child: BuildTextWidget(
-                                  text: "% On sale",
-                                  color: Colors.white,
-                                  weight: FontWeight.w900,
-                                  size: 12,
-                                ),
-                              ),
-                            ),
-                          ],
+                  SizedBox(
+                    height: 50,
+                    width: 220,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors().primaryColors,
+                        shape: RoundedRectangleBorder(
+                          // Change your radius here
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                        BuildContainerWidget(),
-                      ],
+                      ),
+                      onPressed: () {},
+                      child: const BuildTextWidget(
+                        text: "Add to Cart",
+                        color: Colors.white,
+                        weight: FontWeight.w900,
+                        size: 15,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

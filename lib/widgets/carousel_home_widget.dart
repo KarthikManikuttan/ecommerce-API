@@ -1,17 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerce_api/models/e_commerce_response_model.dart';
 import 'package:ecommerce_api/widgets/build_image_widget.dart';
 import 'package:flutter/material.dart';
 import '../const/colors.dart';
 import 'build_text_widget.dart';
 
 class CarouselHomeWidget extends StatefulWidget {
-  final List<String> imgList;
-  final List<String> textList;
+  final List<Product> productList;
 
   const CarouselHomeWidget({
     super.key,
-    required this.imgList,
-    required this.textList,
+    required this.productList,
   });
 
   @override
@@ -28,7 +27,7 @@ class _CarouselHomeWidget extends State<CarouselHomeWidget> {
         aspectRatio: 2.0,
         enlargeCenterPage: true,
       ),
-      itemCount: widget.imgList.length,
+      itemCount: widget.productList.length,
       itemBuilder: (context, index, pageViewIndex) {
         return Stack(
           alignment: Alignment.bottomCenter,
@@ -52,14 +51,14 @@ class _CarouselHomeWidget extends State<CarouselHomeWidget> {
             Align(
               alignment: Alignment.bottomRight,
               child: BuildImageWidget(
-                imgLink: widget.imgList[index],
+                imgLink: widget.productList[index].thumbnail!,
               ),
             ),
             Align(
               alignment: const Alignment(-0.7, 0.4),
               child: BuildTextWidget(
                 size: 30,
-                text: widget.textList[index],
+                text: 'Get Up to \n${widget.productList[index].discountPercentage?.toInt()} % off !',
                 weight: FontWeight.w900,
                 color: Colors.white,
               ),
