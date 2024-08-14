@@ -1,5 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:ecommerce_api/const/colors.dart';
+import 'package:ecommerce_api/utils/api_services.dart';
 import 'package:ecommerce_api/widgets/build_icon_widget.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,39 +15,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Dio dio = Dio();
-  ECommerceResponseModel? eCommerceResponseModel;
   bool isLoading = true;
+  ECommerceResponseModel? eCommerceResponseModel;
+  List<String>? productCategory;
+  int selectedIndex = 0;
+
+  getServices() async {
+    eCommerceResponseModel = await ApiServices().getResponse();
+    productCategory = await ApiServices().getCategory();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void toggle(int index) {}
 
   @override
   void initState() {
     // TODO: implement initState
-    getResponse();
+    getServices();
     super.initState();
-  }
-
-  void getResponse() async {
-    final response = await dio.get("https://dummyjson.com/products");
-    if (response.statusCode == 200) {
-      eCommerceResponseModel = ECommerceResponseModel.fromJson(response.data);
-    }
-    setState(() {
-      isLoading = false;
-    });
-    getCategory();
-  }
-
-  List<String> categoryListBeforeCheck = [];
-  List<String> productCategoryAfterCheck = [];
-
-  void getCategory() {
-    for (var item in eCommerceResponseModel!.products!) {
-      categoryListBeforeCheck.add(item.category!);
-    }
-    var seen = <String>{};
-    productCategoryAfterCheck = categoryListBeforeCheck
-        .where((categoryListBeforeCheck) => seen.add(categoryListBeforeCheck))
-        .toList();
   }
 
   @override
@@ -149,62 +136,58 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 40,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: productCategoryAfterCheck.length,
-                      itemBuilder: (context, index) {
-                        return index == 0
-                            ? Padding(
-                                padding: const EdgeInsets.only(right: 5),
-                                child: Container(
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: AppColors().primaryColors,
-                                  ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15),
-                                      child: BuildTextWidget(
-                                        text: productCategoryAfterCheck[index],
-                                        weight: FontWeight.w700,
-                                        color: Colors.white,
-                                      ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: SizedBox(
+                      height: 40,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: productCategory!.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedIndex = index;
+                                });
+                              },
+                              child: Container(
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: index == selectedIndex
+                                      ? AppColors().primaryColors
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: index == selectedIndex
+                                      ? const Border.symmetric()
+                                      : Border.all(
+                                          color: Colors.black, width: 1.2),
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: BuildTextWidget(
+                                      text: productCategory![index],
+                                      color: index == selectedIndex
+                                          ? Colors.white
+                                          : Colors.black,
+                                      weight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
-                              )
-                            : Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
-                                child: Container(
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                        color: Colors.black, width: 1.2),
-                                  ),
-                                  child: Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: BuildTextWidget(
-                                        text: productCategoryAfterCheck[index],
-                                        weight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                      },
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   BuildGridviewWidget(
                     productList: eCommerceResponseModel!.products!,
+                    index: selectedIndex,
                   ),
                 ],
               ),

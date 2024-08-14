@@ -7,10 +7,12 @@ import 'build_text_widget.dart';
 
 class BuildGridviewWidget extends StatefulWidget {
   final List<Product> productList;
+  int? index;
 
-  const BuildGridviewWidget({
+  BuildGridviewWidget({
     super.key,
     required this.productList,
+    this.index,
   });
 
   @override
