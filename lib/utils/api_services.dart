@@ -5,16 +5,6 @@ class ApiServices {
   Dio dio = Dio();
   static ECommerceResponseModel? eCommerceResponseModel;
 
-  Future<ECommerceResponseModel?> getResponse({required int limit}) async {
-    final response =
-        await dio.get('https://dummyjson.com/products?limit=$limit&skip=0');
-    if (response.statusCode == 200) {
-      eCommerceResponseModel = ECommerceResponseModel.fromJson(response.data);
-    }
-    await getCategory();
-    return eCommerceResponseModel;
-  }
-
   Future<List<dynamic>> getCategory() async {
     List<dynamic> categoryList = [];
     final response =
@@ -32,8 +22,8 @@ class ApiServices {
     category == "All"
         ? response =
             await dio.get('https://dummyjson.com/products?limit=$limit&skip=0')
-        : response =
-            await dio.get('https://dummyjson.com/products/category/$category?limit=$limit&skip=0');
+        : response = await dio.get(
+            'https://dummyjson.com/products/category/$category?limit=$limit&skip=0');
     if (response.statusCode == 200) {
       eCommerceResponseModel = ECommerceResponseModel.fromJson(response.data);
     }

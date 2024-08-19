@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   ECommerceResponseModel? eCommerceResponseModel;
   List<dynamic>? productCategory;
   int selectedIndex = 0;
-  String? category = "";
+  String? category = "All";
   int limit = 10;
   ScrollController scrollController = ScrollController();
   bool isLoadingPagination = false;
@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-
     getServices();
     scrollController.addListener(onScroll);
     super.initState();
@@ -40,14 +39,14 @@ class _HomePageState extends State<HomePage> {
         isLoadingPagination = true;
       });
       limit += 10;
-      // ApiServices().getCategorizedProducts(category: category, limit: limit);
       getServices();
       setState(() {});
     }
   }
 
   getServices() async {
-    eCommerceResponseModel = await ApiServices().getResponse(limit: limit);
+    eCommerceResponseModel = await ApiServices()
+        .getCategorizedProducts(category: category, limit: limit);
     productCategory = await ApiServices().getCategory();
     setState(() {
       isLoading = false;
