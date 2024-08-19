@@ -17,24 +17,42 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isLoading = true;
   ECommerceResponseModel? eCommerceResponseModel;
-  List<String>? productCategory;
+  List<dynamic>? productCategory;
   int selectedIndex = 0;
-
-  getServices() async {
-    eCommerceResponseModel = await ApiServices().getResponse();
-    productCategory = await ApiServices().getCategory();
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  void toggle(int index) {}
+  String? category = "";
+  int limit = 10;
+  ScrollController scrollController = ScrollController();
+  bool isLoadingPagination = false;
 
   @override
   void initState() {
     // TODO: implement initState
+
     getServices();
+    scrollController.addListener(onScroll);
     super.initState();
+  }
+
+  void onScroll() {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      setState(() {
+        isLoadingPagination = true;
+      });
+      limit += 10;
+      // ApiServices().getCategorizedProducts(category: category, limit: limit);
+      getServices();
+      setState(() {});
+    }
+  }
+
+  getServices() async {
+    eCommerceResponseModel = await ApiServices().getResponse(limit: limit);
+    productCategory = await ApiServices().getCategory();
+    setState(() {
+      isLoading = false;
+      isLoadingPagination = false;
+    });
   }
 
   @override
@@ -46,6 +64,7 @@ class _HomePageState extends State<HomePage> {
             ),
           )
         : SingleChildScrollView(
+            controller: scrollController,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -148,9 +167,19 @@ class _HomePageState extends State<HomePage> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: GestureDetector(
-                              onTap: () {
+                              onTap: () async {
+                                limit = 10;
                                 setState(() {
                                   selectedIndex = index;
+                                });
+                                category = productCategory![index];
+                                eCommerceResponseModel =
+                                    await ApiServices().getCategorizedProducts(
+                                  category: productCategory![index],
+                                  limit: limit,
+                                );
+                                setState(() {
+                                  isLoadingPagination = false;
                                 });
                               },
                               child: Container(
@@ -187,8 +216,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                   BuildGridviewWidget(
                     productList: eCommerceResponseModel!.products!,
-                    index: selectedIndex,
                   ),
+                  if (isLoadingPagination == true)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 40),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors().primaryColors,
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),

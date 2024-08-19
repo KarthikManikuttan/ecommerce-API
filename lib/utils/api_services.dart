@@ -5,29 +5,38 @@ class ApiServices {
   Dio dio = Dio();
   static ECommerceResponseModel? eCommerceResponseModel;
 
-  Future<ECommerceResponseModel?> getResponse() async {
+  Future<ECommerceResponseModel?> getResponse({required int limit}) async {
     final response =
-        await dio.get('https://dummyjson.com/products?limit=0&skip=0');
+        await dio.get('https://dummyjson.com/products?limit=$limit&skip=0');
     if (response.statusCode == 200) {
       eCommerceResponseModel = ECommerceResponseModel.fromJson(response.data);
     }
-
     await getCategory();
     return eCommerceResponseModel;
   }
 
-  Future<List<String>> getCategory() async {
-    List<String> categoryListBeforeCheck = [];
-    for (var item in eCommerceResponseModel!.products!) {
-      categoryListBeforeCheck.add(item.category!);
+  Future<List<dynamic>> getCategory() async {
+    List<dynamic> categoryList = [];
+    final response =
+        await dio.get('https://dummyjson.com/products/category-list');
+    if (response.statusCode == 200) {
+      categoryList = response.data;
     }
-    var seen = <String>{};
+    categoryList.insert(0, "All");
+    return categoryList;
+  }
 
-    List<String> productCategoryAfterCheck = categoryListBeforeCheck
-        .where((categoryListBeforeCheck) => seen.add(categoryListBeforeCheck))
-        .toList();
-    productCategoryAfterCheck.insert(0, "All");
-
-    return productCategoryAfterCheck;
+  Future<ECommerceResponseModel?> getCategorizedProducts(
+      {String? category, int? limit}) async {
+    Response<dynamic> response;
+    category == "All"
+        ? response =
+            await dio.get('https://dummyjson.com/products?limit=$limit&skip=0')
+        : response =
+            await dio.get('https://dummyjson.com/products/category/$category?limit=$limit&skip=0');
+    if (response.statusCode == 200) {
+      eCommerceResponseModel = ECommerceResponseModel.fromJson(response.data);
+    }
+    return eCommerceResponseModel!;
   }
 }

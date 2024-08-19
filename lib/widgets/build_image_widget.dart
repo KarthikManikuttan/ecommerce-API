@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_api/const/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -22,19 +23,17 @@ class BuildImageWidget extends StatefulWidget {
 class _BuildImageWidgetState extends State<BuildImageWidget> {
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      widget.imgLink,
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        } else {
-          return Center(
-            child: CircularProgressIndicator(
-              color: AppColors().primaryColors,
-            ),
-          );
-        }
-      },
+    return CachedNetworkImage(
+      width: widget.width,
+      height: widget.height,
+      imageUrl: widget.imgLink,
+      fit: widget.fit,
+      placeholder: (context, url) => Center(
+        child: CircularProgressIndicator(
+          color: AppColors().primaryColors,
+        ),
+      ),
+      errorWidget: (context, url, error) => Icon(Icons.error),
     );
   }
 }
