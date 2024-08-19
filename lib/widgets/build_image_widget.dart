@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecommerce_api/const/colors.dart';
+import 'package:ecommerce_api/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 
 class BuildImageWidget extends StatefulWidget {

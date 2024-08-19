@@ -1,9 +1,9 @@
-import 'package:ecommerce_api/const/colors.dart';
 import 'package:ecommerce_api/utils/api_services.dart';
 import 'package:ecommerce_api/widgets/build_icon_widget.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:flutter/material.dart';
 import '../models/e_commerce_response_model.dart';
+import '../utils/AppColor.dart';
 import '../widgets/build_gridview_widget.dart';
 import '../widgets/carousel_home_widget.dart';
 

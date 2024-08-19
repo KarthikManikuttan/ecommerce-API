@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_api/models/e_commerce_response_model.dart';
 import 'package:ecommerce_api/widgets/build_image_widget.dart';
 import 'package:flutter/material.dart';
-import '../const/colors.dart';
+import '../utils/AppColor.dart';
 import 'build_text_widget.dart';
 
 class CarouselHomeWidget extends StatefulWidget {

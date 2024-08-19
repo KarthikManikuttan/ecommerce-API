@@ -1,4 +1,4 @@
-import 'package:ecommerce_api/const/colors.dart';
+import 'package:ecommerce_api/utils/AppColor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'widgets/build_bottom_navbar_widget.dart';
