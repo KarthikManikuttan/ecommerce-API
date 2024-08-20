@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_api/utils/appColor.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class BuildImageWidget extends StatefulWidget {
   final String imgLink;
@@ -29,8 +30,9 @@ class _BuildImageWidgetState extends State<BuildImageWidget> {
       imageUrl: widget.imgLink,
       fit: widget.fit,
       placeholder: (context, url) => Center(
-        child: CircularProgressIndicator(
+        child: LoadingAnimationWidget.twoRotatingArc(
           color: AppColors().primaryColors,
+          size: 50,
         ),
       ),
       errorWidget: (context, url, error) => Icon(Icons.error),

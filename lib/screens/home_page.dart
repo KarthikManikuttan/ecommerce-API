@@ -5,6 +5,7 @@ import 'package:ecommerce_api/widgets/build_image_widget.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:ecommerce_api/widgets/search_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../models/e_commerce_response_model.dart';
 import '../utils/appColor.dart';
 import '../widgets/build_gridview_widget.dart';
@@ -64,8 +65,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     if (isLoading) {
       return Center(
-        child: CircularProgressIndicator(
+        child: LoadingAnimationWidget.staggeredDotsWave(
           color: AppColors().primaryColors,
+          size: 50,
         ),
       );
     } else {
@@ -197,8 +199,9 @@ class _HomePageState extends State<HomePage> {
               isLoadingGrid
                   ? Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: CircularProgressIndicator(
+                      child: LoadingAnimationWidget.staggeredDotsWave(
                         color: AppColors().primaryColors,
+                        size: 50,
                       ),
                     )
                   : BuildGridviewWidget(
@@ -208,8 +211,9 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 40),
                   child: Center(
-                    child: CircularProgressIndicator(
+                    child: LoadingAnimationWidget.staggeredDotsWave(
                       color: AppColors().primaryColors,
+                      size: 50,
                     ),
                   ),
                 ),

@@ -22,6 +22,7 @@ class _BuildGridviewWidgetState extends State<BuildGridviewWidget> {
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
       child: GridView.builder(
+        padding: const EdgeInsets.only(top: 10),
         itemCount: widget.productList.length,
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
