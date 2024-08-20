@@ -1,4 +1,4 @@
-import 'package:ecommerce_api/utils/AppColor.dart';
+import 'package:ecommerce_api/utils/appColor.dart';
 import 'package:ecommerce_api/models/e_commerce_response_model.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:ecommerce_api/widgets/carousel_product_widget.dart';

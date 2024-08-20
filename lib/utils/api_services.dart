@@ -4,6 +4,7 @@ import '../models/e_commerce_response_model.dart';
 class ApiServices {
   Dio dio = Dio();
   static ECommerceResponseModel? eCommerceResponseModel;
+  static ECommerceResponseModel? searchResponseModel;
 
   Future<List<dynamic>> getCategory() async {
     List<dynamic> categoryList = [];
@@ -28,5 +29,14 @@ class ApiServices {
       eCommerceResponseModel = ECommerceResponseModel.fromJson(response.data);
     }
     return eCommerceResponseModel!;
+  }
+
+  Future<ECommerceResponseModel?> searchProduct({required String? item}) async {
+    final response =
+        await dio.get('https://dummyjson.com/products/search?q=$item');
+    if (response.statusCode == 200) {
+      searchResponseModel = ECommerceResponseModel.fromJson(response.data);
+    }
+    return searchResponseModel;
   }
 }

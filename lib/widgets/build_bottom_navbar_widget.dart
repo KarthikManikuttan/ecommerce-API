@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utils/AppColor.dart';
+import '../utils/appColor.dart';
 import '../screens/home_page.dart';
 import 'build_icon_widget.dart';
 
