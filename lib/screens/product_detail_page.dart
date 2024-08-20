@@ -3,6 +3,7 @@ import 'package:ecommerce_api/models/e_commerce_response_model.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:ecommerce_api/widgets/carousel_product_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:neopop/neopop.dart';
 import '../widgets/build_circle_icon_button_widget.dart';
 import '../widgets/build_container_widget.dart';
 
@@ -57,7 +58,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       BuildCircleIconButtonWidget(
                         onPressed: () {},
                         imgLink:
-                        "https://img.icons8.com/ios-filled/50/like--v1.png",
+                            "https://img.icons8.com/ios-filled/50/like--v1.png",
                         color: Colors.red,
                       ),
                       const SizedBox(
@@ -66,7 +67,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       BuildCircleIconButtonWidget(
                         onPressed: () {},
                         imgLink:
-                        "https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/000000/external-upload-ui-dreamstale-lineal-dreamstale.png",
+                            "https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/000000/external-upload-ui-dreamstale-lineal-dreamstale.png",
                       ),
                     ],
                   ),
@@ -165,7 +166,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ),
       ),
       bottomNavigationBar: ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: 100),
+        constraints: BoxConstraints(maxHeight: 100),
         child: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
@@ -185,19 +186,22 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     weight: FontWeight.w900,
                     size: 25,
                   ),
-                  SizedBox(
-                    height: 50,
-                    width: 220,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors().primaryColors,
-                        shape: RoundedRectangleBorder(
-                          // Change your radius here
-                          borderRadius: BorderRadius.circular(16),
-                        ),
+                  NeoPopTiltedButton(
+                    isFloating: true,
+                    onTapUp: () {},
+                    decoration: NeoPopTiltedButtonDecoration(
+                      color: AppColors().primaryColors,
+                      plunkColor: AppColors().primaryColorsGreen,
+                      shadowColor: AppColors().shadowColors,
+                      showShimmer: true,
+                      shimmerColor: AppColors().greyColors2.withOpacity(0.8),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 50.0,
+                        vertical: 10,
                       ),
-                      onPressed: () {},
-                      child: const BuildTextWidget(
+                      child: BuildTextWidget(
                         text: "Add to Cart",
                         color: Colors.white,
                         weight: FontWeight.w900,
