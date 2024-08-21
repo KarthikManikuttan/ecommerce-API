@@ -1,7 +1,6 @@
-import 'package:ecommerce_api/screens/product_detail_page.dart';
+import 'package:ecommerce_api/screens/cart_page.dart';
 import 'package:ecommerce_api/utils/api_services.dart';
 import 'package:ecommerce_api/widgets/build_icon_widget.dart';
-import 'package:ecommerce_api/widgets/build_image_widget.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:ecommerce_api/widgets/search_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +32,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     getServices();
     scrollController.addListener(onScroll);
     super.initState();
@@ -90,7 +88,14 @@ class _HomePageState extends State<HomePage> {
                     backgroundColor: AppColors().primaryColors,
                     smallSize: 15,
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CartPage(),
+                          ),
+                        );
+                      },
                       highlightColor: Colors.white,
                       highlightElevation: 0,
                       elevation: 0,

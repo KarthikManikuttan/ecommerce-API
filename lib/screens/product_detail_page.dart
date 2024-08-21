@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:neopop/neopop.dart';
 import '../widgets/build_circle_icon_button_widget.dart';
 import '../widgets/build_container_widget.dart';
+import 'cart_page.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final String title;
@@ -166,7 +167,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ),
       ),
       bottomNavigationBar: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: 100),
+        constraints: const BoxConstraints(maxHeight: 100),
         child: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
@@ -188,7 +189,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   NeoPopTiltedButton(
                     isFloating: true,
-                    onTapUp: () {},
+                    onTapUp: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartPage(),
+                        ),
+                      );
+                    },
                     decoration: NeoPopTiltedButtonDecoration(
                       color: AppColors().primaryColors,
                       plunkColor: AppColors().primaryColorsGreen,

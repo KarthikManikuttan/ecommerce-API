@@ -1,7 +1,7 @@
+import 'package:ecommerce_api/screens/cart_page.dart';
 import 'package:ecommerce_api/utils/appColor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'widgets/build_bottom_navbar_widget.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors().primaryColors),
         useMaterial3: true,
       ),
-      home: const BuildBottomNavbarWidget(),
+      home: const CartPage(),
     );
   }
 }
