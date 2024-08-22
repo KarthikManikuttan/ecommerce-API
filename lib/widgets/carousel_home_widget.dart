@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_api/models/e_commerce_response_model.dart';
-import 'package:ecommerce_api/widgets/build_image_widget.dart';
 import 'package:flutter/material.dart';
 import '../utils/appColor.dart';
 import 'build_text_widget.dart';

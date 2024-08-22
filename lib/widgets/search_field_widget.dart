@@ -89,6 +89,8 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
                             price: searchResponseModel!.products![index].price!,
                             reviewList:
                                 searchResponseModel!.products![index].reviews!,
+                            availabilityStatus: searchResponseModel!
+                                .products![index].availabilityStatus!,
                           ),
                         ),
                       );

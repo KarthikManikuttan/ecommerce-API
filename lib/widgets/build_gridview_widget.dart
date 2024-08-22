@@ -44,6 +44,8 @@ class _BuildGridviewWidgetState extends State<BuildGridviewWidget> {
                     imgList: widget.productList[index].images!,
                     price: widget.productList[index].price!,
                     reviewList: widget.productList[index].reviews!,
+                    availabilityStatus:
+                        widget.productList[index].availabilityStatus!,
                   ),
                 ),
               );

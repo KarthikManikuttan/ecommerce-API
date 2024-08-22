@@ -1,20 +1,32 @@
+import 'package:ecommerce_api/screens/product_detail_page.dart';
 import 'package:ecommerce_api/utils/appColor.dart';
-import 'package:ecommerce_api/widgets/build_icon_widget.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:neopop/neopop.dart';
+import '../main.dart';
+import '../models/cart_model_hive.dart';
 import '../widgets/build_circle_icon_button_widget.dart';
 import '../widgets/build_image_widget.dart';
 
 class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+  const CartPage({
+    super.key,
+  });
 
   @override
   State<CartPage> createState() => _CartPageState();
 }
 
 class _CartPageState extends State<CartPage> {
-  int value = 1;
+  @override
+  void initState() {
+    print("box!.length");
+    print("box!.length${box!.length}");
+    // TODO: implement i
+    // nitState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,11 +91,17 @@ class _CartPageState extends State<CartPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: ListView.builder(
+          child: ListView.separated(
+            separatorBuilder: (context, index) {
+              return Divider(
+                color: Colors.grey[400],
+                thickness: 0.5,
+              );
+            },
             physics: const NeverScrollableScrollPhysics(),
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             shrinkWrap: true,
-            itemCount: 5,
+            itemCount: cartModelList.length,
             itemBuilder: (context, index) {
               return SizedBox(
                 child: Column(
@@ -99,13 +117,14 @@ class _CartPageState extends State<CartPage> {
                             child: Row(
                               children: [
                                 Container(
+                                  height: 105,
+                                  width: 105,
                                   decoration: BoxDecoration(
                                     color: AppColors().greyColors,
                                     borderRadius: BorderRadius.circular(25),
                                   ),
-                                  child: const BuildImageWidget(
-                                    imgLink:
-                                        "https://cdn.dummyjson.com/products/images/beauty/Red%20Nail%20Polish/thumbnail.png",
+                                  child: BuildImageWidget(
+                                    imgLink: cartModelList[index].imgLink!,
                                     height: 100,
                                   ),
                                 ),
@@ -122,7 +141,7 @@ class _CartPageState extends State<CartPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Row(
+                                    Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisAlignment:
@@ -130,24 +149,34 @@ class _CartPageState extends State<CartPage> {
                                       children: [
                                         Expanded(
                                           child: BuildTextWidget(
-                                              text: "xboxxxxxxxxxxxx"),
+                                            text: cartModelList[index].title,
+                                            weight: FontWeight.w700,
+                                          ),
                                         ),
-                                        BuildIconWidget(
+                                        BuildCircleIconButtonWidget(
+                                          onPressed: () {},
                                           imgLink:
                                               "https://img.icons8.com/ios/50/delete-sign--v1.png",
                                           color: Colors.grey,
-                                          size: 15,
+                                          size: 20,
                                         ),
                                       ],
                                     ),
-                                    const BuildTextWidget(text: "1 Tb"),
+                                    BuildTextWidget(
+                                      text: cartModelList[index]
+                                          .quantity!
+                                          .toString(),
+                                      weight: FontWeight.w700,
+                                    ),
                                     const Spacer(),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         const BuildTextWidget(
-                                            text: "\$5999.99"),
+                                          text: "\$5999.99",
+                                          weight: FontWeight.w700,
+                                        ),
                                         Row(
                                           children: [
                                             Container(
@@ -179,7 +208,11 @@ class _CartPageState extends State<CartPage> {
                                               width: 30,
                                               child: Center(
                                                 child: BuildTextWidget(
-                                                    text: value.toString()),
+                                                  text: cartModelList[index]
+                                                      .quantity
+                                                      .toString(),
+                                                  weight: FontWeight.w700,
+                                                ),
                                               ),
                                             ),
                                             Container(
@@ -200,8 +233,47 @@ class _CartPageState extends State<CartPage> {
                                                 padding: EdgeInsets.zero,
                                                 iconSize: 15,
                                                 onPressed: () {
-                                                  value++;
-                                                  setState(() {});
+                                                  int quantity =
+                                                      cartModelList[index]
+                                                              .quantity +
+                                                          1;
+                                                  setState(() {
+                                                    box!.put(
+                                                      cartModelList[index]
+                                                          .title,
+                                                      CartModel(
+                                                        title:
+                                                            cartModelList[index]
+                                                                .title,
+                                                        subTitle:
+                                                            cartModelList[index]
+                                                                .subTitle,
+                                                        amount:
+                                                            cartModelList[index]
+                                                                .amount,
+                                                        imgLink:
+                                                            cartModelList[index]
+                                                                .imgLink,
+                                                        quantity: quantity,
+                                                      ),
+                                                    );
+                                                    cartModelList[index] =
+                                                        CartModel(
+                                                      title:
+                                                          cartModelList[index]
+                                                              .title,
+                                                      subTitle:
+                                                          cartModelList[index]
+                                                              .subTitle,
+                                                      amount:
+                                                          cartModelList[index]
+                                                              .amount,
+                                                      imgLink:
+                                                          cartModelList[index]
+                                                              .imgLink,
+                                                      quantity: quantity,
+                                                    );
+                                                  });
                                                 },
                                                 icon: Center(
                                                   child: Icon(
@@ -223,10 +295,6 @@ class _CartPageState extends State<CartPage> {
                           ),
                         ],
                       ),
-                    ),
-                    Divider(
-                      color: Colors.grey[400],
-                      thickness: 0.5,
                     ),
                   ],
                 ),

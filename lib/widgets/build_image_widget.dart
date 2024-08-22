@@ -35,7 +35,7 @@ class _BuildImageWidgetState extends State<BuildImageWidget> {
           size: 50,
         ),
       ),
-      errorWidget: (context, url, error) => Icon(Icons.error),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
     );
   }
 }

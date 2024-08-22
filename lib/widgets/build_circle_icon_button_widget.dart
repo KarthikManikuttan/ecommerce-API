@@ -6,11 +6,13 @@ class BuildCircleIconButtonWidget extends StatefulWidget {
   final VoidCallback onPressed;
   final String imgLink;
   final Color? color;
+  final double? size;
 
   const BuildCircleIconButtonWidget({
     super.key,
     required this.onPressed,
     required this.imgLink,
+    this.size,
     this.color,
   });
 
@@ -32,6 +34,7 @@ class _BuildCircleIconButtonWidgetState
         icon: BuildIconWidget(
           imgLink: widget.imgLink,
           color: widget.color ?? Colors.black,
+          size: widget.size,
         ),
       ),
     );

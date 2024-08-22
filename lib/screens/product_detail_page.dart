@@ -1,3 +1,5 @@
+import 'package:ecommerce_api/main.dart';
+import 'package:ecommerce_api/models/cart_model_hive.dart';
 import 'package:ecommerce_api/utils/appColor.dart';
 import 'package:ecommerce_api/models/e_commerce_response_model.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
@@ -6,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:neopop/neopop.dart';
 import '../widgets/build_circle_icon_button_widget.dart';
 import '../widgets/build_container_widget.dart';
-import 'cart_page.dart';
+
+List<dynamic> cartModelList = [];
 
 class ProductDetailPage extends StatefulWidget {
   final String title;
@@ -16,6 +19,7 @@ class ProductDetailPage extends StatefulWidget {
   final double price;
   final double discount;
   final List<Review> reviewList;
+  final AvailabilityStatus availabilityStatus;
 
   const ProductDetailPage({
     super.key,
@@ -26,6 +30,7 @@ class ProductDetailPage extends StatefulWidget {
     required this.price,
     required this.description,
     required this.discount,
+    required this.availabilityStatus,
   });
 
   @override
@@ -189,13 +194,30 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   NeoPopTiltedButton(
                     isFloating: true,
-                    onTapUp: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CartPage(),
+                    onTapUp: () async {
+                      await box!.put(
+                        widget.title,
+                        CartModel(
+                          title: widget.title,
+                          subTitle: widget.availabilityStatus.toString(),
+                          amount: widget.price,
+                          imgLink: widget.imgList[0],
+                          quantity: 1,
                         ),
                       );
+                      cartModelList = box!.values.toList();
+
+                      print(cartModelList.length);
+
+                      final snackBar = SnackBar(
+                        backgroundColor: AppColors().primaryColors,
+                        content: const BuildTextWidget(
+                          text: "Product has been added to your cart!",
+                          color: Colors.white,
+                          weight: FontWeight.w700,
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     },
                     decoration: NeoPopTiltedButtonDecoration(
                       color: AppColors().primaryColors,
