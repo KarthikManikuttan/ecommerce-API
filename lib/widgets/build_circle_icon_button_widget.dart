@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utils/appColor.dart';
+import '../utils/app_color.dart';
 import 'build_icon_widget.dart';
 
 class BuildCircleIconButtonWidget extends StatefulWidget {
@@ -17,12 +17,10 @@ class BuildCircleIconButtonWidget extends StatefulWidget {
   });
 
   @override
-  State<BuildCircleIconButtonWidget> createState() =>
-      _BuildCircleIconButtonWidgetState();
+  State<BuildCircleIconButtonWidget> createState() => _BuildCircleIconButtonWidgetState();
 }
 
-class _BuildCircleIconButtonWidgetState
-    extends State<BuildCircleIconButtonWidget> {
+class _BuildCircleIconButtonWidgetState extends State<BuildCircleIconButtonWidget> {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(

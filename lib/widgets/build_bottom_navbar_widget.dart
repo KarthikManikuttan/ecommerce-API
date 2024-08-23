@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utils/appColor.dart';
+import '../utils/app_color.dart';
 import '../screens/home_page.dart';
 import 'build_icon_widget.dart';
 
@@ -7,8 +7,7 @@ class BuildBottomNavbarWidget extends StatefulWidget {
   const BuildBottomNavbarWidget({super.key});
 
   @override
-  State<BuildBottomNavbarWidget> createState() =>
-      _BuildBottomNavbarWidgetState();
+  State<BuildBottomNavbarWidget> createState() => _BuildBottomNavbarWidgetState();
 }
 
 class _BuildBottomNavbarWidgetState extends State<BuildBottomNavbarWidget> {
@@ -93,13 +92,11 @@ class _BuildBottomNavbarWidgetState extends State<BuildBottomNavbarWidget> {
               ),
               BottomNavigationBarItem(
                 icon: const BuildIconWidget(
-                  imgLink:
-                      "https://img.icons8.com/pastel-glyph/64/person-male--v2.png",
+                  imgLink: "https://img.icons8.com/pastel-glyph/64/person-male--v2.png",
                   size: 40,
                 ),
                 activeIcon: BuildIconWidget(
-                  imgLink:
-                      "https://img.icons8.com/pastel-glyph/64/person-male--v2.png",
+                  imgLink: "https://img.icons8.com/pastel-glyph/64/person-male--v2.png",
                   color: AppColors().primaryColors,
                 ),
                 label: 'Profile',

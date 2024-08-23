@@ -5,8 +5,9 @@ import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:ecommerce_api/widgets/search_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:string_capitalize/string_capitalize.dart';
 import '../models/e_commerce_response_model.dart';
-import '../utils/appColor.dart';
+import '../utils/app_color.dart';
 import '../widgets/build_gridview_widget.dart';
 import '../widgets/carousel_home_widget.dart';
 
@@ -38,8 +39,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onScroll() {
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       setState(() {
         isLoadingPagination = true;
       });
@@ -50,8 +50,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   getServices() async {
-    eCommerceResponseModel = await ApiServices()
-        .getCategorizedProducts(category: category, limit: limit);
+    eCommerceResponseModel =
+        await ApiServices().getCategorizedProducts(category: category, limit: limit);
     productCategory = await ApiServices().getCategory();
     setState(() {
       isLoading = false;
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CartPage(),
+                            builder: (context) => const CartPage(),
                           ),
                         );
                       },
@@ -160,8 +160,7 @@ class _HomePageState extends State<HomePage> {
                             limit = 10;
 
                             category = productCategory![index];
-                            eCommerceResponseModel =
-                                await ApiServices().getCategorizedProducts(
+                            eCommerceResponseModel = await ApiServices().getCategorizedProducts(
                               category: productCategory![index],
                               limit: limit,
                             );
@@ -183,13 +182,13 @@ class _HomePageState extends State<HomePage> {
                             ),
                             child: Center(
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
                                 child: BuildTextWidget(
-                                  text: productCategory![index],
-                                  color: index == selectedIndex
-                                      ? Colors.white
-                                      : Colors.black,
+                                  text: productCategory![index]
+                                      .toString()
+                                      .replaceAll("-", " ")
+                                      .capitalizeEach(),
+                                  color: index == selectedIndex ? Colors.white : Colors.black,
                                   weight: FontWeight.w700,
                                 ),
                               ),

@@ -17,18 +17,20 @@ class CartModelAdapter extends TypeAdapter<CartModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CartModel(
+      totalAmount: fields[6] as double?,
       title: fields[0] as String?,
       subTitle: fields[1] as String?,
       amount: fields[2] as double?,
       quantity: fields[3] as int?,
       imgLink: fields[4] as String?,
+      status: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CartModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -38,7 +40,11 @@ class CartModelAdapter extends TypeAdapter<CartModel> {
       ..writeByte(3)
       ..write(obj.quantity)
       ..writeByte(4)
-      ..write(obj.imgLink);
+      ..write(obj.imgLink)
+      ..writeByte(5)
+      ..write(obj.status)
+      ..writeByte(6)
+      ..write(obj.totalAmount);
   }
 
   @override
@@ -47,7 +53,5 @@ class CartModelAdapter extends TypeAdapter<CartModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CartModelAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is CartModelAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

@@ -13,6 +13,10 @@ class CartModel {
   final int? quantity;
   @HiveField(4)
   final String? imgLink;
+  @HiveField(5)
+  final String? status;
+  @HiveField(6)
+  final double? totalAmount;
 
   CartModel({
     required this.title,
@@ -20,5 +24,7 @@ class CartModel {
     required this.amount,
     required this.quantity,
     required this.imgLink,
+    required this.status,
+    required this.totalAmount,
   });
 }

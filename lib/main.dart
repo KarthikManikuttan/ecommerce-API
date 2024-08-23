@@ -1,11 +1,10 @@
 import 'package:ecommerce_api/models/cart_model_hive.dart';
-import 'package:ecommerce_api/utils/appColor.dart';
+import 'package:ecommerce_api/utils/app_color.dart';
 import 'package:ecommerce_api/widgets/build_bottom_navbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
-
-import 'screens/product_detail_page.dart';
+import 'utils/hive_services.dart';
 
 Box? box;
 void main() async {

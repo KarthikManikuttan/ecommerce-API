@@ -1,7 +1,7 @@
 import 'package:ecommerce_api/models/e_commerce_response_model.dart';
 import 'package:ecommerce_api/widgets/build_image_widget.dart';
 import 'package:flutter/material.dart';
-import '../utils/appColor.dart';
+import '../utils/app_color.dart';
 import '../screens/product_detail_page.dart';
 import 'build_text_widget.dart';
 
@@ -44,8 +44,7 @@ class _BuildGridviewWidgetState extends State<BuildGridviewWidget> {
                     imgList: widget.productList[index].images!,
                     price: widget.productList[index].price!,
                     reviewList: widget.productList[index].reviews!,
-                    availabilityStatus:
-                        widget.productList[index].availabilityStatus!,
+                    availabilityStatus: widget.productList[index].availabilityStatus!,
                   ),
                 ),
               );
@@ -70,8 +69,7 @@ class _BuildGridviewWidgetState extends State<BuildGridviewWidget> {
                 Flexible(
                   flex: 1,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -80,11 +78,9 @@ class _BuildGridviewWidgetState extends State<BuildGridviewWidget> {
                           children: [
                             Flexible(
                               child: BuildTextWidget(
-                                text:
-                                    widget.productList[index].title!.length > 34
-                                        ? widget.productList[index].title!
-                                            .substring(0, 34)
-                                        : widget.productList[index].title,
+                                text: widget.productList[index].title!.length > 34
+                                    ? widget.productList[index].title!.substring(0, 34)
+                                    : widget.productList[index].title,
                                 color: Colors.grey,
                                 weight: FontWeight.w600,
                               ),
@@ -115,8 +111,7 @@ class _BuildGridviewWidgetState extends State<BuildGridviewWidget> {
                                     width: 5,
                                   ),
                                   BuildTextWidget(
-                                    text: widget.productList[index].rating
-                                        .toString(),
+                                    text: widget.productList[index].rating.toString(),
                                     weight: FontWeight.w600,
                                   ),
                                 ],

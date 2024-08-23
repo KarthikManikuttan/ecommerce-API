@@ -1,15 +1,13 @@
 import 'package:ecommerce_api/main.dart';
-import 'package:ecommerce_api/models/cart_model_hive.dart';
-import 'package:ecommerce_api/utils/appColor.dart';
+import 'package:ecommerce_api/utils/app_color.dart';
 import 'package:ecommerce_api/models/e_commerce_response_model.dart';
+import 'package:ecommerce_api/widgets/build_neopop_button.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:ecommerce_api/widgets/carousel_product_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:neopop/neopop.dart';
+import '../utils/hive_services.dart';
 import '../widgets/build_circle_icon_button_widget.dart';
 import '../widgets/build_container_widget.dart';
-
-List<dynamic> cartModelList = [];
 
 class ProductDetailPage extends StatefulWidget {
   final String title;
@@ -19,7 +17,7 @@ class ProductDetailPage extends StatefulWidget {
   final double price;
   final double discount;
   final List<Review> reviewList;
-  final AvailabilityStatus availabilityStatus;
+  final String? availabilityStatus;
 
   const ProductDetailPage({
     super.key,
@@ -63,8 +61,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     children: [
                       BuildCircleIconButtonWidget(
                         onPressed: () {},
-                        imgLink:
-                            "https://img.icons8.com/ios-filled/50/like--v1.png",
+                        imgLink: "https://img.icons8.com/ios-filled/50/like--v1.png",
                         color: Colors.red,
                       ),
                       const SizedBox(
@@ -85,9 +82,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
             Container(
               constraints: const BoxConstraints(
-                  minHeight: 290,
-                  minWidth: double.infinity,
-                  maxHeight: double.infinity),
+                  minHeight: 290, minWidth: double.infinity, maxHeight: double.infinity),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25),
@@ -192,24 +187,26 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     weight: FontWeight.w900,
                     size: 25,
                   ),
-                  NeoPopTiltedButton(
-                    isFloating: true,
-                    onTapUp: () async {
-                      await box!.put(
-                        widget.title,
-                        CartModel(
-                          title: widget.title,
-                          subTitle: widget.availabilityStatus.toString(),
-                          amount: widget.price,
-                          imgLink: widget.imgList[0],
-                          quantity: 1,
-                        ),
+                  BuildNeopopButton(
+                    text: "Add to Cart",
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 50.0,
+                      vertical: 10,
+                    ),
+                    onTapUp: () {
+                      HiveServices().addToCart(
+                        title: widget.title,
+                        totalAmount: widget.price,
+                        subTitle: widget.availabilityStatus,
+                        amount: widget.price,
+                        imgLink: widget.imgList[0],
+                        status: widget.availabilityStatus,
                       );
+
                       cartModelList = box!.values.toList();
 
-                      print(cartModelList.length);
-
                       final snackBar = SnackBar(
+                        duration: const Duration(seconds: 1),
                         backgroundColor: AppColors().primaryColors,
                         content: const BuildTextWidget(
                           text: "Product has been added to your cart!",
@@ -219,26 +216,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     },
-                    decoration: NeoPopTiltedButtonDecoration(
-                      color: AppColors().primaryColors,
-                      plunkColor: AppColors().primaryColorsGreen,
-                      shadowColor: AppColors().shadowColors,
-                      showShimmer: true,
-                      shimmerColor: AppColors().greyColors2.withOpacity(0.8),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 50.0,
-                        vertical: 10,
-                      ),
-                      child: BuildTextWidget(
-                        text: "Add to Cart",
-                        color: Colors.white,
-                        weight: FontWeight.w900,
-                        size: 15,
-                      ),
-                    ),
-                  ),
+                  )
                 ],
               ),
             ],

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/e_commerce_response_model.dart';
 import '../screens/product_detail_page.dart';
 import '../utils/api_services.dart';
-import '../utils/appColor.dart';
+import '../utils/app_color.dart';
 import 'build_icon_widget.dart';
 import 'build_image_widget.dart';
 import 'build_text_widget.dart';
@@ -78,19 +78,14 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
                         MaterialPageRoute(
                           builder: (context) => ProductDetailPage(
                             title: searchResponseModel!.products![index].title!,
-                            description: searchResponseModel!
-                                .products![index].description!,
-                            discount: searchResponseModel!
-                                .products![index].discountPercentage!,
-                            rating:
-                                searchResponseModel!.products![index].rating!,
-                            imgList:
-                                searchResponseModel!.products![index].images!,
+                            description: searchResponseModel!.products![index].description!,
+                            discount: searchResponseModel!.products![index].discountPercentage!,
+                            rating: searchResponseModel!.products![index].rating!,
+                            imgList: searchResponseModel!.products![index].images!,
                             price: searchResponseModel!.products![index].price!,
-                            reviewList:
-                                searchResponseModel!.products![index].reviews!,
-                            availabilityStatus: searchResponseModel!
-                                .products![index].availabilityStatus!,
+                            reviewList: searchResponseModel!.products![index].reviews!,
+                            availabilityStatus:
+                                searchResponseModel!.products![index].availabilityStatus!,
                           ),
                         ),
                       );
@@ -101,21 +96,18 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
                         height: 80,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                            color: AppColors().greyColors,
-                            borderRadius: BorderRadius.circular(20)),
+                            color: AppColors().greyColors, borderRadius: BorderRadius.circular(20)),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Row(
                             children: [
                               Expanded(
                                 child: BuildTextWidget(
-                                  text: searchResponseModel!
-                                      .products![index].title,
+                                  text: searchResponseModel!.products![index].title,
                                 ),
                               ),
                               BuildImageWidget(
-                                  imgLink: searchResponseModel!
-                                      .products![index].thumbnail!),
+                                  imgLink: searchResponseModel!.products![index].thumbnail!),
                             ],
                           ),
                         ),
