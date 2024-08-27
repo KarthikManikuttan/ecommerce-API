@@ -1,7 +1,10 @@
+import 'package:ecommerce_api/models/wishlist_model.dart';
+
 import '../main.dart';
 import '../models/cart_model_hive.dart';
 
 List<dynamic> cartModelList = [];
+List<dynamic> wishListModelList = [];
 
 class HiveServices {
   void addToCart({
@@ -9,7 +12,6 @@ class HiveServices {
     required String? subTitle,
     required double? amount,
     required String? imgLink,
-    required String? status,
     required double? totalAmount,
     int? quantity,
   }) async {
@@ -22,7 +24,25 @@ class HiveServices {
         totalAmount: totalAmount,
         imgLink: imgLink,
         quantity: quantity ?? 1,
-        status: status,
+      ),
+    );
+  }
+
+  void addToWishList({
+    required String? title,
+    required String? subTitle,
+    required double? amount,
+    required String? imgLink,
+    required int? id,
+  }) async {
+    await wishBox!.put(
+      title,
+      WishList(
+        title: title,
+        subTitle: subTitle,
+        amount: amount,
+        imgLink: imgLink,
+        id: id,
       ),
     );
   }

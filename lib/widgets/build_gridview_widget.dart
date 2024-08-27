@@ -37,6 +37,7 @@ class _BuildGridviewWidgetState extends State<BuildGridviewWidget> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ProductDetailPage(
+                    productId: widget.productList[index].id,
                     title: widget.productList[index].title!,
                     description: widget.productList[index].description!,
                     discount: widget.productList[index].discountPercentage!,
@@ -44,7 +45,7 @@ class _BuildGridviewWidgetState extends State<BuildGridviewWidget> {
                     imgList: widget.productList[index].images!,
                     price: widget.productList[index].price!,
                     reviewList: widget.productList[index].reviews!,
-                    availabilityStatus: widget.productList[index].availabilityStatus!,
+                    category: widget.productList[index].category!,
                   ),
                 ),
               );

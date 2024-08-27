@@ -77,6 +77,7 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProductDetailPage(
+                            productId: searchResponseModel!.products![index].id,
                             title: searchResponseModel!.products![index].title!,
                             description: searchResponseModel!.products![index].description!,
                             discount: searchResponseModel!.products![index].discountPercentage!,
@@ -84,8 +85,7 @@ class _SearchFieldWidgetState extends State<SearchFieldWidget> {
                             imgList: searchResponseModel!.products![index].images!,
                             price: searchResponseModel!.products![index].price!,
                             reviewList: searchResponseModel!.products![index].reviews!,
-                            availabilityStatus:
-                                searchResponseModel!.products![index].availabilityStatus!,
+                            category: searchResponseModel!.products![index].category!,
                           ),
                         ),
                       );

@@ -1,8 +1,8 @@
 import 'package:hive/hive.dart';
-part 'cart_model_hive.g.dart';
+part 'wishlist_model.g.dart';
 
-@HiveType(typeId: 0)
-class CartModel {
+@HiveType(typeId: 1)
+class WishList {
   @HiveField(0)
   final String? title;
   @HiveField(1)
@@ -10,18 +10,15 @@ class CartModel {
   @HiveField(2)
   final double? amount;
   @HiveField(3)
-  final int? quantity;
-  @HiveField(4)
   final String? imgLink;
-  @HiveField(5)
-  final double? totalAmount;
+  @HiveField(4)
+  final int? id;
 
-  CartModel({
+  WishList({
     required this.title,
     required this.subTitle,
     required this.amount,
-    required this.quantity,
     required this.imgLink,
-    required this.totalAmount,
+    required this.id,
   });
 }

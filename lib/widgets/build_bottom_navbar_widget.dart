@@ -1,3 +1,4 @@
+import 'package:ecommerce_api/screens/wishlist_page.dart';
 import 'package:flutter/material.dart';
 import '../utils/app_color.dart';
 import '../screens/home_page.dart';
@@ -26,11 +27,7 @@ class _BuildBottomNavbarWidgetState extends State<BuildBottomNavbarWidget> {
         'Index 1: search',
       ),
     ),
-    const Center(
-      child: Text(
-        'Index 2: favourite',
-      ),
-    ),
+    const WishlistPage(),
     const Center(
       child: Text(
         'Index 3: profile',

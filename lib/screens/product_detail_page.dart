@@ -1,6 +1,7 @@
 import 'package:ecommerce_api/main.dart';
 import 'package:ecommerce_api/utils/app_color.dart';
 import 'package:ecommerce_api/models/e_commerce_response_model.dart';
+import 'package:ecommerce_api/utils/cart_services.dart';
 import 'package:ecommerce_api/widgets/build_neopop_button.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:ecommerce_api/widgets/carousel_product_widget.dart';
@@ -17,7 +18,8 @@ class ProductDetailPage extends StatefulWidget {
   final double price;
   final double discount;
   final List<Review> reviewList;
-  final String? availabilityStatus;
+  final String? category;
+  final int? productId;
 
   const ProductDetailPage({
     super.key,
@@ -28,7 +30,8 @@ class ProductDetailPage extends StatefulWidget {
     required this.price,
     required this.description,
     required this.discount,
-    required this.availabilityStatus,
+    required this.category,
+    required this.productId,
   });
 
   @override
@@ -36,6 +39,14 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
+  bool isWishListAdded = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    isWishListAdded = CartServices().isAdded(widget.productId!);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,9 +71,52 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   Row(
                     children: [
                       BuildCircleIconButtonWidget(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (CartServices().isAdded(widget.productId!)) {
+                            wishBox?.delete(widget.productId);
+                            wishListModelList.removeAt(isAddedIndex!);
+
+                            isWishListAdded = false;
+                            final snackBar = SnackBar(
+                              duration: const Duration(seconds: 1),
+                              backgroundColor: AppColors().primaryColors,
+                              content: const BuildTextWidget(
+                                text: "Product has been removed to your favourites!",
+                                color: Colors.white,
+                                weight: FontWeight.w700,
+                              ),
+                            );
+
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            setState(() {});
+                          } else {
+                            HiveServices().addToWishList(
+                              title: widget.title,
+                              subTitle: widget.category,
+                              amount: widget.price,
+                              imgLink: widget.imgList[0],
+                              id: widget.productId,
+                            );
+
+                            wishListModelList = wishBox!.values.toList();
+
+                            final snackBar = SnackBar(
+                              duration: const Duration(seconds: 1),
+                              backgroundColor: AppColors().primaryColors,
+                              content: const BuildTextWidget(
+                                text: "Product has been added to your favourites!",
+                                color: Colors.white,
+                                weight: FontWeight.w700,
+                              ),
+                            );
+                            isWishListAdded = true;
+
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            setState(() {});
+                          }
+                        },
                         imgLink: "https://img.icons8.com/ios-filled/50/like--v1.png",
-                        color: Colors.red,
+                        color: isWishListAdded ? Colors.red : AppColors().primaryColors,
                       ),
                       const SizedBox(
                         width: 20,
@@ -197,10 +251,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       HiveServices().addToCart(
                         title: widget.title,
                         totalAmount: widget.price,
-                        subTitle: widget.availabilityStatus,
+                        subTitle: widget.category,
                         amount: widget.price,
                         imgLink: widget.imgList[0],
-                        status: widget.availabilityStatus,
                       );
 
                       cartModelList = box!.values.toList();
