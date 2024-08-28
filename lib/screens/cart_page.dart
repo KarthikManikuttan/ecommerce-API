@@ -1,9 +1,9 @@
+import 'package:ecommerce_api/payments/payment_functions.dart';
 import 'package:ecommerce_api/utils/app_color.dart';
 import 'package:ecommerce_api/widgets/build_neopop_button.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:ecommerce_api/widgets/cart_list_view_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../utils/cart_services.dart';
 import '../utils/hive_services.dart';
 import '../widgets/build_circle_icon_button_widget.dart';
@@ -236,7 +236,12 @@ class _CartPageState extends State<CartPage> {
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     child: BuildNeopopButton(
                       text: "Checkout",
-                      onTapUp: () {},
+                      onTapUp: () async {
+                        StripeService.instance.makePayment(
+                            amount: CartServices().getSubTotal().round(),
+                            callBack: update,
+                            context: context);
+                      },
                       padding: const EdgeInsets.symmetric(
                         horizontal: 130.0,
                         vertical: 15,
