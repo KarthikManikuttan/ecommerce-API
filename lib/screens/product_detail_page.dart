@@ -118,14 +118,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         imgLink: "https://img.icons8.com/ios-filled/50/like--v1.png",
                         color: isWishListAdded ? Colors.red : AppColors().primaryColors,
                       ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      BuildCircleIconButtonWidget(
-                        onPressed: () {},
-                        imgLink:
-                            "https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/000000/external-upload-ui-dreamstale-lineal-dreamstale.png",
-                      ),
                     ],
                   ),
                 ],

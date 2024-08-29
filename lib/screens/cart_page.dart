@@ -31,65 +31,42 @@ class _CartPageState extends State<CartPage> {
       appBar: PreferredSize(
         preferredSize: const Size(double.infinity, 50),
         child: AppBar(
-          flexibleSpace: Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors().greyColors,
-                      borderRadius: const BorderRadius.all(Radius.circular(50.0)),
-                      border: Border.all(
-                        color: Colors.grey.shade300,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: BuildCircleIconButtonWidget(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      imgLink: "https://img.icons8.com/windows/64/back.png",
-                    ),
-                  ),
-                  const BuildTextWidget(
-                    text: "My cart",
-                    size: 16,
-                    color: Colors.black,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors().greyColors,
-                      borderRadius: const BorderRadius.all(Radius.circular(50.0)),
-                      border: Border.all(
-                        color: Colors.grey.shade300,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: BuildCircleIconButtonWidget(
-                      onPressed: () {},
-                      imgLink: "https://img.icons8.com/material-sharp/48/more.png",
-                    ),
-                  ),
-                ],
+          leadingWidth: 70,
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors().greyColors,
+                borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+                border: Border.all(
+                  color: Colors.grey.shade300,
+                  width: 1.0,
+                ),
+              ),
+              child: BuildCircleIconButtonWidget(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                imgLink: "https://img.icons8.com/windows/64/back.png",
               ),
             ),
           ),
+          title: const BuildTextWidget(
+            text: "My cart",
+            size: 16,
+            color: Colors.black,
+          ),
+          centerTitle: true,
           backgroundColor: Colors.white,
           foregroundColor: Colors.white,
           surfaceTintColor: Colors.white,
         ),
       ),
       body: cartModelList.isEmpty
-          ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: 310),
+          ? const Padding(
+              padding: EdgeInsets.symmetric(vertical: 310),
               child: Center(
-                child: BuildNeopopButton(
-                  onTapUp: () {},
-                  text: "Your cart is empty !",
-                ),
+                child: BuildTextWidget(text: "Your Cart is empty !"),
               ),
             )
           : Padding(
