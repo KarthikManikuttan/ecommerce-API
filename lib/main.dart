@@ -1,11 +1,13 @@
 import 'package:ecommerce_api/models/cart_model_hive.dart';
 import 'package:ecommerce_api/models/wishlist_model.dart';
+import 'package:ecommerce_api/provider/wishlist_provider.dart';
 import 'package:ecommerce_api/utils/app_color.dart';
 import 'package:ecommerce_api/widgets/build_bottom_navbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:provider/provider.dart';
 import 'payments/create_payment_intent.dart';
 import 'utils/hive_services.dart';
 
@@ -34,14 +36,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Ecommerce API',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors().primaryColors),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => WishListProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Ecommerce API',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors().primaryColors),
+          useMaterial3: true,
+        ),
+        home: const BuildBottomNavbarWidget(),
       ),
-      home: const BuildBottomNavbarWidget(),
     );
   }
 }
