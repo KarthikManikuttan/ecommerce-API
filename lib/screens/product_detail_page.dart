@@ -1,4 +1,5 @@
 import 'package:ecommerce_api/main.dart';
+import 'package:ecommerce_api/provider/wishlist_provider.dart';
 import 'package:ecommerce_api/utils/app_color.dart';
 import 'package:ecommerce_api/models/e_commerce_response_model.dart';
 import 'package:ecommerce_api/utils/cart_services.dart';
@@ -6,11 +7,12 @@ import 'package:ecommerce_api/widgets/build_neopop_button.dart';
 import 'package:ecommerce_api/widgets/build_text_widget.dart';
 import 'package:ecommerce_api/widgets/carousel_product_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../utils/hive_services.dart';
 import '../widgets/build_circle_icon_button_widget.dart';
 import '../widgets/build_container_widget.dart';
 
-class ProductDetailPage extends StatefulWidget {
+class ProductDetailPage extends StatelessWidget {
   final String title;
   final String description;
   final List<String> imgList;
@@ -35,20 +37,11 @@ class ProductDetailPage extends StatefulWidget {
   });
 
   @override
-  State<ProductDetailPage> createState() => _ProductDetailPageState();
-}
-
-class _ProductDetailPageState extends State<ProductDetailPage> {
-  bool isWishListAdded = false;
-  @override
-  void initState() {
-    // TODO: implement initState
-    isWishListAdded = CartServices().isAdded(widget.productId!);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    Future.microtask(() {
+      Provider.of<WishListProvider>(context, listen: false).checkWishListStatus(productId!);
+    });
+
     return Scaffold(
       backgroundColor: AppColors().greyColors2,
       body: SingleChildScrollView(
@@ -70,53 +63,31 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   Row(
                     children: [
-                      BuildCircleIconButtonWidget(
-                        onPressed: () {
-                          if (CartServices().isAdded(widget.productId!)) {
-                            wishBox?.delete(widget.productId);
-                            wishListModelList.removeAt(isAddedIndex!);
-
-                            isWishListAdded = false;
-                            final snackBar = SnackBar(
-                              duration: const Duration(seconds: 1),
-                              backgroundColor: AppColors().primaryColors,
-                              content: const BuildTextWidget(
-                                text: "Product has been removed to your favourites!",
-                                color: Colors.white,
-                                weight: FontWeight.w700,
-                              ),
-                            );
-
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                            setState(() {});
-                          } else {
-                            HiveServices().addToWishList(
-                              title: widget.title,
-                              subTitle: widget.category,
-                              amount: widget.price,
-                              imgLink: widget.imgList[0],
-                              id: widget.productId,
-                            );
-
-                            wishListModelList = wishBox!.values.toList();
-
-                            final snackBar = SnackBar(
-                              duration: const Duration(seconds: 1),
-                              backgroundColor: AppColors().primaryColors,
-                              content: const BuildTextWidget(
-                                text: "Product has been added to your favourites!",
-                                color: Colors.white,
-                                weight: FontWeight.w700,
-                              ),
-                            );
-                            isWishListAdded = true;
-
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                            setState(() {});
-                          }
-                        },
-                        imgLink: "https://img.icons8.com/ios-filled/50/like--v1.png",
-                        color: isWishListAdded ? Colors.red : AppColors().primaryColors,
+                      Consumer<WishListProvider>(
+                        builder: (context, wishListProviderModel, child) =>
+                            BuildCircleIconButtonWidget(
+                          onPressed: () {
+                            if (CartServices().isAdded(productId!)) {
+                              wishListProviderModel.removeFromWishList(
+                                isAddedIndex: isAddedIndex!,
+                                context: context,
+                              );
+                            } else {
+                              wishListProviderModel.addToWishList(
+                                title: title,
+                                subTitle: category,
+                                amount: price,
+                                imgLink: imgList[0],
+                                id: productId,
+                                context: context,
+                              );
+                            }
+                          },
+                          imgLink: "https://img.icons8.com/ios-filled/50/like--v1.png",
+                          color: wishListProviderModel.isWishListAdded
+                              ? Colors.red
+                              : AppColors().primaryColors,
+                        ),
                       ),
                     ],
                   ),
@@ -124,7 +95,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
             ),
             CarouselProductWidget(
-              imgList: widget.imgList,
+              imgList: imgList,
             ),
             Container(
               constraints: const BoxConstraints(
@@ -149,7 +120,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       children: [
                         Flexible(
                           child: BuildTextWidget(
-                            text: widget.title,
+                            text: title,
                             size: 25,
                             weight: FontWeight.w900,
                           ),
@@ -177,7 +148,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       child: Row(
                         children: [
                           BuildContainerWidget(
-                            text: widget.rating.toString(),
+                            text: rating.toString(),
                             icon: Icons.star,
                             iconColor: Colors.orange,
                           ),
@@ -185,7 +156,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             width: 15,
                           ),
                           BuildContainerWidget(
-                            text: widget.discount.toString(),
+                            text: discount.toString(),
                             icon: Icons.percent_rounded,
                             iconColor: Colors.green,
                           ),
@@ -193,7 +164,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             width: 15,
                           ),
                           BuildTextWidget(
-                            text: "${widget.reviewList.length} reviews",
+                            text: "${reviewList.length} reviews",
                             color: Colors.grey,
                             weight: FontWeight.w700,
                             size: 13,
@@ -202,7 +173,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       ),
                     ),
                     BuildTextWidget(
-                      text: widget.description,
+                      text: description,
                       weight: FontWeight.w500,
                     ),
                   ],
@@ -229,7 +200,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   BuildTextWidget(
-                    text: "\$${widget.price}",
+                    text: "\$$price",
                     weight: FontWeight.w900,
                     size: 25,
                   ),
@@ -241,11 +212,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                     onTapUp: () {
                       HiveServices().addToCart(
-                        title: widget.title,
-                        totalAmount: widget.price,
-                        subTitle: widget.category,
-                        amount: widget.price,
-                        imgLink: widget.imgList[0],
+                        title: title,
+                        totalAmount: price,
+                        subTitle: category,
+                        amount: price,
+                        imgLink: imgList[0],
                       );
 
                       cartModelList = box!.values.toList();

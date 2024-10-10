@@ -85,7 +85,8 @@ class WishlistGridviewWidget extends StatelessWidget {
                                                   subTitle: "Are you sure?",
                                                   title: "Remove",
                                                   onPressed: () {
-                                                    wishListProvider.removeItems(index, context);
+                                                    wishListProvider.removeItems(
+                                                        index: index, context: context);
                                                   },
                                                 );
                                               },
